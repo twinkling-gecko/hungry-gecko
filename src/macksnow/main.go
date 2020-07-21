@@ -1,9 +1,29 @@
 package main
 
 import (
-	"fmt"
+	"net/http"
+
+	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 )
 
+const PORT = ":4000"
+
 func main() {
-	fmt.Println("I'm fine.")
+	e := echo.New()
+
+	e.Use(middleware.Logger())
+	e.Use(middleware.Recover())
+
+	e.GET("/", hello)
+
+	e.Logger.Fatal(e.Start(PORT))
+}
+
+func hello(c echo.Context) error {
+  type response struct {
+    Message string `json:"message"`
+  }
+
+  return c.JSON(http.StatusOK, &response{Message: "I'm fine."})
 }
