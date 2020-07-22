@@ -21,7 +21,8 @@
 
 ## github packages の設定
 
-`read:package` の権限のある token でログインする（パスワードは打たない）
+`read:package` の権限のある token でログインする。  
+表示されるプロンプトには**パスワードではなく** token を入力する。
 
 `$ docker login https://docker.pkg.github.com -u USERNAME`
 
@@ -46,7 +47,8 @@
 
 ### まとめて立ち上げ
 
-`$ docker-compose up` （-d でバックグラウンド起動）
+`$ docker-compose up` （-d でバックグラウンド起動）  
+バックグラウンドで起動した場合は、`$ docker-compose logs -f (サービス名)` で任意のサービスのログにつなげる。
 
 `http://localhost` でアプリに接続できる。  
 `/` が tangerine、`/api`が macksnow
