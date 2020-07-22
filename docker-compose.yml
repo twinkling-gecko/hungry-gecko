@@ -1,27 +1,26 @@
-version: "3"
+version: "3.7"
 
 services:
   macksnow:
-    image: golang:latest
-    working_dir: /go/src/macksnow
+    build:
+      context: ./src/macksnow/
+      target: development
+    image: twinkling-gecko/macksnow:development
     volumes:
       - ./.go/pkg:/go/pkg
       - ./src/macksnow:/go/src/macksnow:cached
     ports:
       - 4000:4000
-    command: go run main.go
 
   tangerine:
-    image: node:latest
-    working_dir: /usr/src/app
+    build:
+      context: ./src/tangerine/
+      target: development
+    image: twinkling-gecko/tangerine:development
     volumes:
       - ./src/tangerine:/usr/src/app:cached
     ports:
       - 3000:3000
-    environment:
-      PORT: 3000
-      HOST: 0.0.0.0
-    command: yarn nuxt-ts dev
 
   enigma:
     image: nginx:latest
