@@ -5,6 +5,8 @@ import (
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
+
+	"macksnow/pkg/router"
 )
 
 const PORT = ":4000"
@@ -16,6 +18,7 @@ func main() {
 	e.Use(middleware.Recover())
 
 	e.GET("/", hello)
+	router.Init(e)
 
 	e.Logger.Fatal(e.Start(PORT))
 }
