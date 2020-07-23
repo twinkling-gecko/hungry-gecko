@@ -18,6 +18,13 @@
 
 - docker
 - docker-compose
+- yarn
+
+## pre-commitの設定
+
+プロジェクトルートで
+
+`$ yarn`
 
 ## github packages の設定
 
