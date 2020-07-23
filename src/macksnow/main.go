@@ -21,9 +21,9 @@ func main() {
 }
 
 func hello(c echo.Context) error {
-  type response struct {
-    Message string `json:"message"`
-  }
+	type response struct {
+		Message string `json:"message"`
+	}
 
-  return c.JSON(http.StatusOK, &response{Message: "I'm fine."})
+	return c.JSON(http.StatusOK, &response{Message: "I'm fine."})
 }
