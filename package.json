@@ -19,7 +19,8 @@
   },
   "lint-staged": {
     "*.{js,vue}": "eslint",
-    "*.{css,vue}": "stylelint"
+    "*.{css,vue}": "stylelint",
+    "*.go": "gofmt -w"
   },
   "husky": {
     "hooks": {
