@@ -17,6 +17,10 @@ type item struct {
 	UpdatedAt time.Time `json:"updated_at"`
 }
 
+type indexResponse struct {
+	Items []*item `json:"items"`
+}
+
 // TODO: ダミーAPI用のダミーデータなのでいずれ消す
 var sampleItem = &item{
 	ID:        0,
@@ -31,15 +35,16 @@ func itemsRouter(e *echo.Echo) {
 	itemsIndexRouter(e)
 }
 
+// @summary Get itemslist
+// @produce json
+// @success 200 {object} indexResponse
+// @router /api/v1/items [get]
 func itemsIndexRouter(e *echo.Echo) {
 	e.GET("/v1/items", func(c echo.Context) error {
 		// TODO: 本実装
-		type response struct {
-			Items []*item `json:"items"`
-		}
 
 		items := []*item{sampleItem}
-		res := &response{Items: items}
+		res := &indexResponse{Items: items}
 		return c.JSON(http.StatusOK, res)
 	})
 }

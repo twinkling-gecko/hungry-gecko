@@ -1,0 +1,38 @@
+definitions:
+  router.indexResponse:
+    properties:
+      items:
+        items:
+          $ref: '#/definitions/router.item'
+        type: array
+    type: object
+  router.item:
+    properties:
+      created_at:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      summary:
+        type: string
+      updated_at:
+        type: string
+      uri:
+        type: string
+    type: object
+info:
+  contact: {}
+  license: {}
+paths:
+  /api/v1/items:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/router.indexResponse'
+      summary: Get itemslist
+swagger: "2.0"
