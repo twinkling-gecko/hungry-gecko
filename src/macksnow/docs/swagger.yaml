@@ -1,4 +1,9 @@
 definitions:
+  router.errorResponse:
+    properties:
+      message:
+        type: string
+    type: object
   router.indexResponse:
     properties:
       items:
@@ -35,4 +40,24 @@ paths:
           schema:
             $ref: '#/definitions/router.indexResponse'
       summary: Get itemslist
+  /api/v1/items/{id}:
+    get:
+      parameters:
+      - description: Item ID
+        in: query
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/router.item'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/router.errorResponse'
+      summary: Get item info
 swagger: "2.0"

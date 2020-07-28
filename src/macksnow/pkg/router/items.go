@@ -55,6 +55,12 @@ func itemsIndexRouter(e *echo.Echo) {
 	})
 }
 
+// @summary Get item info
+// @produce json
+// @param id query integer true "Item ID"
+// @success 200 {object} item
+// @failure 400 {object} errorResponse
+// @router /api/v1/items/{id} [get]
 func itemsShowRouter(e *echo.Echo) {
 	e.GET("/v1/items/:id", func(c echo.Context) error {
 		// TODO: 本実装
