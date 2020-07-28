@@ -11,6 +11,17 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+func TestItemsIndexRouter(t *testing.T) {
+	e := echo.New()
+	itemsIndexRouter(e)
+
+	// リクエストした場合
+	req := httptest.NewRequest("GET", "/v1/items", nil)
+	rec := httptest.NewRecorder()
+	e.ServeHTTP(rec, req)
+	assert.Equal(t, http.StatusOK, rec.Code)
+}
+
 func TestItemsShowRouter(t *testing.T) {
 	e := echo.New()
 	itemsShowRouter(e)
