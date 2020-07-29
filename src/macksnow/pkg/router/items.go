@@ -6,16 +6,27 @@ import (
 	"time"
 
 	"github.com/labstack/echo/v4"
+	"gopkg.in/go-playground/validator.v9"
 )
 
 // TODO: ダミーAPIの定義用なのでいずれ消す
 type item struct {
 	ID        int       `json:"id"`
-	Name      string    `json:"name"`
-	Summary   string    `json:"summary"`
-	URI       string    `json:"uri"`
+	Name      string    `json:"name" validate:"required"`
+	Summary   string    `json:"summary" validate:"required"`
+	URI       string    `json:"uri" validate:"required"`
 	CreatedAt time.Time `json:"created_at"`
 	UpdatedAt time.Time `json:"updated_at"`
+}
+
+type receiveItem struct {
+	Name    string `json:"name" validate:"required"`
+	Summary string `json:"summary" validate:"required"`
+	URI     string `json:"uri" validate:"required"`
+}
+
+type CustomValidator struct {
+	validator *validator.Validate
 }
 
 type indexResponse struct {
@@ -39,6 +50,11 @@ var sampleItem = &item{
 func itemsRouter(e *echo.Echo) {
 	itemsIndexRouter(e)
 	itemsShowRouter(e)
+	itemsCreateRouter(e)
+}
+
+func (cv *CustomValidator) Validate(i interface{}) error {
+	return cv.validator.Struct(i)
 }
 
 // @summary Get itemslist
@@ -82,6 +98,38 @@ func itemsShowRouter(e *echo.Echo) {
 			UpdatedAt: time.Now(),
 		}
 
+		return c.JSON(http.StatusOK, sampleItem)
+	})
+}
+
+// @summary Register item info
+// @produce json
+// @param items body receiveItem true "Item data"
+// @success 200 {object} item
+// @failure 400 {object} errorResponse
+// @router /api/v1/items [post]
+func itemsCreateRouter(e *echo.Echo) {
+	e.POST("/v1/items", func(c echo.Context) error {
+		// TODO: 本実装
+
+		// echoにvalidatorを登録
+		e.Validator = &CustomValidator{validator: validator.New()}
+
+		sampleItem := new(item)
+
+		if err := c.Bind(sampleItem); err != nil {
+			res := &errorResponse{Message: "Invalid parameters."}
+			return c.JSON(http.StatusBadRequest, res)
+		}
+
+		if err := c.Validate(sampleItem); err != nil {
+			res := &errorResponse{Message: "Required parameters is empty. " + err.Error()}
+			return c.JSON(http.StatusBadRequest, res)
+		}
+
+		sampleItem.ID = 99
+		sampleItem.CreatedAt = time.Now()
+		sampleItem.UpdatedAt = time.Now()
 		return c.JSON(http.StatusOK, sampleItem)
 	})
 }

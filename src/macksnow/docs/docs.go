@@ -39,6 +39,37 @@ var doc = `{
                         }
                     }
                 }
+            },
+            "post": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Register item info",
+                "parameters": [
+                    {
+                        "description": "Item data",
+                        "name": "items",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/router.receiveItem"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/router.item"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/router.errorResponse"
+                        }
+                    }
+                }
             }
         },
         "/api/v1/items/{id}": {
@@ -95,6 +126,11 @@ var doc = `{
         },
         "router.item": {
             "type": "object",
+            "required": [
+                "name",
+                "summary",
+                "uri"
+            ],
             "properties": {
                 "created_at": {
                     "type": "string"
@@ -109,6 +145,25 @@ var doc = `{
                     "type": "string"
                 },
                 "updated_at": {
+                    "type": "string"
+                },
+                "uri": {
+                    "type": "string"
+                }
+            }
+        },
+        "router.receiveItem": {
+            "type": "object",
+            "required": [
+                "name",
+                "summary",
+                "uri"
+            ],
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "summary": {
                     "type": "string"
                 },
                 "uri": {

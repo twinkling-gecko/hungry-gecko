@@ -25,6 +25,23 @@ definitions:
         type: string
       uri:
         type: string
+    required:
+    - name
+    - summary
+    - uri
+    type: object
+  router.receiveItem:
+    properties:
+      name:
+        type: string
+      summary:
+        type: string
+      uri:
+        type: string
+    required:
+    - name
+    - summary
+    - uri
     type: object
 info:
   contact: {}
@@ -40,6 +57,26 @@ paths:
           schema:
             $ref: '#/definitions/router.indexResponse'
       summary: Get itemslist
+    post:
+      parameters:
+      - description: Item data
+        in: body
+        name: items
+        required: true
+        schema:
+          $ref: '#/definitions/router.receiveItem'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/router.item'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/router.errorResponse'
+      summary: Register item info
   /api/v1/items/{id}:
     get:
       parameters:
