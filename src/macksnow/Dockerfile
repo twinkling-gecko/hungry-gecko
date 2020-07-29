@@ -30,6 +30,7 @@ EXPOSE 4000
 WORKDIR /go/src/macksnow
 
 RUN go get github.com/pilu/fresh
+RUN go get github.com/swaggo/swag/cmd/swag
 
 CMD ["fresh"]
 

@@ -3,8 +3,12 @@ package main
 import (
 	"net/http"
 
+	echoSwagger "github.com/ken-aio/echo-swagger"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
+
+	_ "macksnow/docs"
+	"macksnow/pkg/router"
 )
 
 const PORT = ":4000"
@@ -16,6 +20,8 @@ func main() {
 	e.Use(middleware.Recover())
 
 	e.GET("/", hello)
+	e.GET("/docs/*", echoSwagger.WrapHandler) // swagger documents
+	router.Init(e)
 
 	e.Logger.Fatal(e.Start(PORT))
 }
