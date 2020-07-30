@@ -9,6 +9,8 @@ services:
     volumes:
       - ./.go/pkg:/go/pkg
       - ./src/macksnow:/go/src/macksnow:cached
+    depends_on:
+      - giant
     ports:
       - 4000:4000
 
@@ -28,3 +30,15 @@ services:
       - ./src/enigma/default.conf:/etc/nginx/conf.d/default.conf:cached
     ports:
       - 80:80
+
+  giant:
+    image: mysql:latest
+    volumes:
+      - ./.db:/var/lib/mysql:cached
+    environment:
+      - MYSQL_ROOT_PASSWORD=leopard
+      - MYSQL_DATABASE=macksnow
+      - MYSQL_USER=giant
+      - MYSQL_PASSWORD=leopard
+    ports:
+      - 3306:3306
