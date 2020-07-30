@@ -83,12 +83,12 @@ macksnow は `http://localhost:4000` で繋がる。
 
 ## DBのマイグレーションを適用する
 
-`$ cd src/macksnow/migrations/`
+`$ cd src/macksnow/migrations/`  
 `$ goose mysql "giant:leopard@/macksnow?parseTime=true" up`
 
 ## DBのロールバック
 
-`$ cd src/macksnow/migrations/`
+`$ cd src/macksnow/migrations/`  
 `$ goose mysql "giant:leopard@/macksnow?parseTime=true" down`
 
 ## パラメータの省略
@@ -96,12 +96,12 @@ macksnow は `http://localhost:4000` で繋がる。
 マイグレーション適用とロールバックの際に毎回ドライバと接続項目を打つのは面倒なので  
 環境変数に入れておくとよい。
 
-`$ export GOOSE_DRIVER=mysql`
+`$ export GOOSE_DRIVER=mysql`  
 `$ export GOOSE_DBSTRING="giant:leopard@/macksnow?parseTime=true"`
 
 これを入れておくと、マイグレーション適用とロールバックをそれぞれ
 
-`$ goose up`
+`$ goose up`  
 `$ goose down`
 
 で実行可能。
