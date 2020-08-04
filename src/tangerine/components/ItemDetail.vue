@@ -1,9 +1,9 @@
 <template>
   <div class="container">
-    <h2>{{item.name}}</h2>
-    <p>{{item.summary}}</p>
-    <BLink :href="item.uri">{{item.uri}}</BLink>
-    <p>更新日：{{item.updated_at}}</p>
+    <h2>{{ item.name }}</h2>
+    <p>{{ item.summary }}</p>
+    <BLink :href="item.uri">{{ item.uri }}</BLink>
+    <p>更新日：{{ item.updated_at }}</p>
   </div>
 </template>
 
@@ -23,8 +23,8 @@ interface Item {
 
 @Component({
   components: {
-    BLink,
-  },
+    BLink
+  }
 })
 export default class ItemDetail extends Vue {
   @Prop({ type: Object as PropType<Item>, default: {} })
