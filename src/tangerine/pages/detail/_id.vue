@@ -1,7 +1,5 @@
 <template>
-  <div>
-    <ItemDetail :item="data" />
-  </div>
+  <ItemDetail :item="data" />
 </template>
 
 <script lang="ts">
