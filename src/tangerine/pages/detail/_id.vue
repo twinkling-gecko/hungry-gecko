@@ -16,8 +16,9 @@ import ItemDetail from '@/components/ItemDetail.vue'
 export default class Detail extends Vue {
   async asyncData(context: any) {
     const id = context.route.params.id
-    const res = await context.$axios.get('http://localhost/api/v1/items/' + id)
-    console.log(res)
+    const res = await context.$axios.get(
+      context.$axios.defaults.baseURL + 'items/' + id
+    )
     return {
       data: res.data,
     }
