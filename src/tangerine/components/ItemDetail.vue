@@ -1,10 +1,10 @@
 <template>
-  <div class="container">
+  <b-container>
     <h2>{{ item.name }}</h2>
     <p>{{ item.summary }}</p>
     <b-link :href="item.uri">{{ item.uri }}</b-link>
     <p>更新日：{{ item.updated_at }}</p>
-  </div>
+  </b-container>
 </template>
 
 <script lang="ts">
@@ -26,9 +26,3 @@ export default class ItemDetail extends Vue {
   item!: Item
 }
 </script>
-
-<style lang="scss" scoped>
-.container {
-  padding: 8px;
-}
-</style>
