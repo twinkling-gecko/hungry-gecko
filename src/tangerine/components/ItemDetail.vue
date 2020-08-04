@@ -2,7 +2,7 @@
   <div class="container">
     <h2>{{ item.name }}</h2>
     <p>{{ item.summary }}</p>
-    <BLink :href="item.uri">{{ item.uri }}</BLink>
+    <b-link :href="item.uri">{{ item.uri }}</b-link>
     <p>更新日：{{ item.updated_at }}</p>
   </div>
 </template>
@@ -10,7 +10,6 @@
 <script lang="ts">
 import { PropType } from 'vue'
 import { Component, Vue, Prop } from 'nuxt-property-decorator'
-import { BLink } from 'bootstrap-vue'
 
 interface Item {
   created_at: string
@@ -21,11 +20,7 @@ interface Item {
   uri: string
 }
 
-@Component({
-  components: {
-    BLink
-  }
-})
+@Component
 export default class ItemDetail extends Vue {
   @Prop({ type: Object as PropType<Item>, default: {} })
   item!: Item
