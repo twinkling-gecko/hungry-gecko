@@ -1,18 +1,36 @@
 <template>
-  <BNavbar variant="light">
-    <BNavbarBrand>amazon review</BNavbarBrand>
-  </BNavbar>
+  <b-navbar variant="light" fixed="top" class="nav">
+    <b-navbar-brand to="/">
+      <Gecko class="svg" />
+      Hungry Gecko
+    </b-navbar-brand>
+    <b-navbar-nav class="ml-auto">
+      <nuxt-link to="/items/new">
+        <b-button size="sm" class="my-2 my-sm-0"> NewItems </b-button>
+      </nuxt-link>
+    </b-navbar-nav>
+  </b-navbar>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
-import { BNavbar, BNavbarBrand } from 'bootstrap-vue'
+import Gecko from '@/assets/svg/gecko.svg'
 
 @Component({
   components: {
-    BNavbar,
-    BNavbarBrand,
+    Gecko,
   },
 })
 export default class GeneralHeader extends Vue {}
 </script>
+
+<style lang="scss" scoped>
+.nav {
+  height: 60px;
+}
+.svg {
+  height: 40px;
+  width: auto;
+  transform: rotate(-45deg);
+}
+</style>
