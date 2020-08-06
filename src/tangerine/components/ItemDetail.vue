@@ -10,19 +10,21 @@
 <script lang="ts">
 import { PropType } from 'vue'
 import { Component, Vue, Prop } from 'nuxt-property-decorator'
-
-interface Item {
-  created_at: string
-  id: number
-  name: string
-  summary: string
-  updated_at: string
-  uri: string
-}
+import { Item } from '@/types/index'
 
 @Component
 export default class ItemDetail extends Vue {
-  @Prop({ type: Object as PropType<Item>, default: {} })
+  @Prop({
+    type: Object as PropType<Item>,
+    default: (): Item => ({
+      id: 0,
+      name: '',
+      summary: '',
+      uri: '',
+      created_at: Date.now(),
+      updated_at: Date.now(),
+    }),
+  })
   item!: Item
 }
 </script>

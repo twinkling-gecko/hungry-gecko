@@ -12,9 +12,9 @@ import Header from '@/components/GeneralHeader.vue'
 @Component({
   components: {
     Header,
-  }
+  },
 })
-export default class Default extends Vue{}
+export default class Default extends Vue {}
 </script>
 
 <style>
