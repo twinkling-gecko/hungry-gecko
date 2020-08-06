@@ -8,8 +8,8 @@ import ItemDetail from '@/components/ItemDetail.vue'
 
 @Component({
   components: {
-    ItemDetail
-  }
+    ItemDetail,
+  },
 })
 export default class Detail extends Vue {
   async asyncData(context: any) {
@@ -18,7 +18,7 @@ export default class Detail extends Vue {
       context.$axios.defaults.baseURL + 'items/' + id
     )
     return {
-      data: res.data
+      data: res.data,
     }
   }
 }

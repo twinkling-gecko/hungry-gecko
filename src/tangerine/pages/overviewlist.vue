@@ -24,9 +24,7 @@ import { BLink, BCard, BCardText } from 'bootstrap-vue'
 })
 export default class List extends Vue {
   async asyncData(context: any) {
-    const res = await context.$axios.get(
-      'http://localhost/api/v1/items'
-    )
+    const res = await context.$axios.get('http://localhost/api/v1/items')
     return {
       data: res.data,
     }
