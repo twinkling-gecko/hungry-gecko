@@ -9,7 +9,7 @@ import ItemDetail from '@/components/ItemDetail.vue'
 
 @Component({
   components: {
-    ItemDetail
+    ItemDetail,
   },
   asyncData(context: any) {
     const id = context.route.params.id
@@ -24,16 +24,16 @@ import ItemDetail from '@/components/ItemDetail.vue'
             summary: data.summary,
             uri: data.uri,
             created_at: data.created_at,
-            updated_at: data.updated_at
-          }
+            updated_at: data.updated_at,
+          },
         }
       })
       .catch(() => {
         return {
-          fetchFail: true
+          fetchFail: true,
         }
       })
-  }
+  },
 })
 export default class Detail extends Vue {
   item = {
@@ -42,8 +42,9 @@ export default class Detail extends Vue {
     summary: '',
     uri: '',
     created_at: Date.now(),
-    updated_at: Date.now()
+    updated_at: Date.now(),
   }
+
   fetchFail = false
 }
 </script>
