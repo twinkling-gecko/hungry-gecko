@@ -52,12 +52,16 @@ func (cv *CustomValidator) Validate(i interface{}) error {
 // @summary Get itemslist
 // @produce json
 // @success 200 {object} indexResponse
+// @failure 500 {object} errorResponse
 // @router /api/v1/items [get]
 func itemsIndexRouter(e *echo.Echo) {
 	e.GET("/v1/items", func(c echo.Context) error {
-		// TODO: 本実装
+		items, err := repo.GetItems()
+		if err != nil {
+			res := &errorResponse{Message: err.Error()}
+			return c.JSON(http.StatusInternalServerError, res)
+		}
 
-		items := []*model.Item{sampleItem}
 		res := &indexResponse{Items: items}
 		return c.JSON(http.StatusOK, res)
 	})

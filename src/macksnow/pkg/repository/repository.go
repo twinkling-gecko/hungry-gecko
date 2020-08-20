@@ -3,6 +3,8 @@ package repository
 import (
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jmoiron/sqlx"
+
+	"macksnow/pkg/model"
 )
 
 // DBへの接続を管理する実態
@@ -12,6 +14,7 @@ type repository struct {
 
 // 実際に振る舞いを提供するinterface
 type Repository interface {
+	GetItems() ([]*model.Item, error)
 	Close() error
 }
 
