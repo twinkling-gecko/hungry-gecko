@@ -7,17 +7,9 @@ import (
 
 	"github.com/labstack/echo/v4"
 	"gopkg.in/go-playground/validator.v9"
-)
 
-// TODO: ダミーAPIの定義用なのでいずれ消す
-type item struct {
-	ID        int       `json:"id"`
-	Name      string    `json:"name" validate:"required"`
-	Summary   string    `json:"summary" validate:"required"`
-	URI       string    `json:"uri" validate:"required"`
-	CreatedAt time.Time `json:"created_at"`
-	UpdatedAt time.Time `json:"updated_at"`
-}
+	"macksnow/pkg/model"
+)
 
 type receiveItem struct {
 	Name    string `json:"name" validate:"required"`
@@ -30,7 +22,7 @@ type CustomValidator struct {
 }
 
 type indexResponse struct {
-	Items []*item `json:"items"`
+	Items []*model.Item `json:"items"`
 }
 
 type errorResponse struct {
@@ -38,7 +30,7 @@ type errorResponse struct {
 }
 
 // TODO: ダミーAPI用のダミーデータなのでいずれ消す
-var sampleItem = &item{
+var sampleItem = &model.Item{
 	ID:        0,
 	Name:      "TestItem",
 	Summary:   "TestSummary",
@@ -65,7 +57,7 @@ func itemsIndexRouter(e *echo.Echo) {
 	e.GET("/v1/items", func(c echo.Context) error {
 		// TODO: 本実装
 
-		items := []*item{sampleItem}
+		items := []*model.Item{sampleItem}
 		res := &indexResponse{Items: items}
 		return c.JSON(http.StatusOK, res)
 	})
@@ -89,7 +81,7 @@ func itemsShowRouter(e *echo.Echo) {
 			return c.JSON(http.StatusBadRequest, res)
 		}
 
-		sampleItem := &item{
+		sampleItem := &model.Item{
 			ID:        id,
 			Name:      "TestItem",
 			Summary:   "TestSummary",
@@ -115,7 +107,7 @@ func itemsCreateRouter(e *echo.Echo) {
 		// echoにvalidatorを登録
 		e.Validator = &CustomValidator{validator: validator.New()}
 
-		sampleItem := new(item)
+		sampleItem := new(model.Item)
 
 		if err := c.Bind(sampleItem); err != nil {
 			res := &errorResponse{Message: "Invalid parameters."}
