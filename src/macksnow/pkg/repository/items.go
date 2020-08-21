@@ -1,6 +1,7 @@
 package repository
 
 import (
+	"database/sql"
 	"macksnow/pkg/model"
 )
 
@@ -36,4 +37,44 @@ func (repo *repository) FindItem(id int) (*model.Item, error) {
 	}
 
 	return &item, nil
+}
+
+func (repo *repository) CreateItem(name string, summary string, uri string) (*model.Item, error) {
+	var result sql.Result
+	{
+		var err error
+
+		if result, err = repo.db.Exec(
+			`
+            INSERT INTO items(name, summary, uri)
+                VALUES(?, ?, ?)
+            `,
+			name, summary, uri,
+		); err != nil {
+			return nil, err
+		}
+	}
+
+	var id int
+	{
+		var err error
+		var lastInsertedId int64
+
+		if lastInsertedId, err = result.LastInsertId(); err != nil {
+			return nil, err
+		}
+
+		id = int(lastInsertedId)
+	}
+
+	var item *model.Item
+	{
+		var err error
+
+		if item, err = repo.FindItem(int(id)); err != nil {
+			return nil, err
+		}
+	}
+
+	return item, nil
 }

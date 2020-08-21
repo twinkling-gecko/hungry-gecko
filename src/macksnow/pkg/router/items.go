@@ -103,26 +103,28 @@ func itemsShowRouter(e *echo.Echo) {
 // @router /api/v1/items [post]
 func itemsCreateRouter(e *echo.Echo) {
 	e.POST("/v1/items", func(c echo.Context) error {
-		// TODO: 本実装
 
 		// echoにvalidatorを登録
 		e.Validator = &CustomValidator{validator: validator.New()}
 
-		sampleItem := new(model.Item)
+		newItem := new(model.Item)
 
-		if err := c.Bind(sampleItem); err != nil {
+		if err := c.Bind(newItem); err != nil {
 			res := &errorResponse{Message: "Invalid parameters."}
 			return c.JSON(http.StatusBadRequest, res)
 		}
 
-		if err := c.Validate(sampleItem); err != nil {
+		if err := c.Validate(newItem); err != nil {
 			res := &errorResponse{Message: "Required parameters is empty. " + err.Error()}
 			return c.JSON(http.StatusBadRequest, res)
 		}
 
-		sampleItem.ID = 99
-		sampleItem.CreatedAt = time.Now()
-		sampleItem.UpdatedAt = time.Now()
-		return c.JSON(http.StatusOK, sampleItem)
+		item, err := repo.CreateItem(newItem.Name, newItem.Summary, newItem.URI)
+		if err != nil {
+			res := &errorResponse{Message: err.Error()}
+			return c.JSON(http.StatusInternalServerError, res)
+		}
+
+		return c.JSON(http.StatusOK, item)
 	})
 }
