@@ -70,7 +70,7 @@ func itemsIndexRouter(e *echo.Echo) {
 // @summary Get item info
 // @produce json
 // @param id query integer true "Item ID"
-// @success 200 {object} item
+// @success 200 {object} model.Item
 // @failure 400 {object} errorResponse
 // @router /api/v1/items/{id} [get]
 func itemsShowRouter(e *echo.Echo) {
@@ -101,7 +101,7 @@ func itemsShowRouter(e *echo.Echo) {
 // @summary Register item info
 // @produce json
 // @param items body receiveItem true "Item data"
-// @success 200 {object} item
+// @success 200 {object} model.Item
 // @failure 400 {object} errorResponse
 // @router /api/v1/items [post]
 func itemsCreateRouter(e *echo.Echo) {
