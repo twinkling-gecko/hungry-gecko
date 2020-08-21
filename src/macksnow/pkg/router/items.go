@@ -3,7 +3,6 @@ package router
 import (
 	"net/http"
 	"strconv"
-	"time"
 
 	"github.com/labstack/echo/v4"
 	"gopkg.in/go-playground/validator.v9"
@@ -27,16 +26,6 @@ type indexResponse struct {
 
 type errorResponse struct {
 	Message string `json:"message"`
-}
-
-// TODO: ダミーAPI用のダミーデータなのでいずれ消す
-var sampleItem = &model.Item{
-	ID:        0,
-	Name:      "TestItem",
-	Summary:   "TestSummary",
-	URI:       "https://www.amazon.co.jp",
-	CreatedAt: time.Now(),
-	UpdatedAt: time.Now(),
 }
 
 func itemsRouter(e *echo.Echo) {
