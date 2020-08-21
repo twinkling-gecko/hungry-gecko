@@ -89,7 +89,7 @@ var doc = `{
                         "type": "integer",
                         "description": "Item ID",
                         "name": "id",
-                        "in": "query",
+                        "in": "path",
                         "required": true
                     }
                 ],
@@ -102,6 +102,12 @@ var doc = `{
                     },
                     "400": {
                         "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/router.errorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
                         "schema": {
                             "$ref": "#/definitions/router.errorResponse"
                         }
