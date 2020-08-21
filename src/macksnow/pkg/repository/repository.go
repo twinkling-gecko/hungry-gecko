@@ -14,7 +14,7 @@ type repository struct {
 
 // 実際に振る舞いを提供するinterface
 type Repository interface {
-	GetItems() ([]*model.Item, error)
+	AllItems() ([]*model.Item, error)
 	Close() error
 }
 

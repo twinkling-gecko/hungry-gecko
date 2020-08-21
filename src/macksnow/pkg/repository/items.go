@@ -4,7 +4,7 @@ import (
 	"macksnow/pkg/model"
 )
 
-func (repo *repository) GetItems() ([]*model.Item, error) {
+func (repo *repository) AllItems() ([]*model.Item, error) {
 	var items []*model.Item
 
 	if err := repo.db.Select(&items,

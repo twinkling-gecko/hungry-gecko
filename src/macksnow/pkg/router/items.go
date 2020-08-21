@@ -56,7 +56,7 @@ func (cv *CustomValidator) Validate(i interface{}) error {
 // @router /api/v1/items [get]
 func itemsIndexRouter(e *echo.Echo) {
 	e.GET("/v1/items", func(c echo.Context) error {
-		items, err := repo.GetItems()
+		items, err := repo.AllItems()
 		if err != nil {
 			res := &errorResponse{Message: err.Error()}
 			return c.JSON(http.StatusInternalServerError, res)
