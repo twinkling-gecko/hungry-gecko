@@ -26,10 +26,7 @@ func (repo *repository) FindItem(id int) (*model.Item, error) {
 	var item model.Item
 
 	if err := repo.db.Get(&item,
-		`
-        SELECT * FROM items
-            WHERE id = ?
-        `,
+		"SELECT * FROM items WHERE id = ?",
 		id,
 	); err != nil {
 		// 存在しないIDの場合、no rows in result setがerrとして返却される
@@ -41,39 +38,26 @@ func (repo *repository) FindItem(id int) (*model.Item, error) {
 
 func (repo *repository) CreateItem(name string, summary string, uri string) (*model.Item, error) {
 	var result sql.Result
-	{
-		var err error
+	var err error
 
-		if result, err = repo.db.Exec(
-			`
-            INSERT INTO items(name, summary, uri)
-                VALUES(?, ?, ?)
-            `,
-			name, summary, uri,
-		); err != nil {
-			return nil, err
-		}
+	if result, err = repo.db.Exec(
+		"INSERT INTO items(name, summary, uri) VALUES(?, ?, ?)",
+		name, summary, uri,
+	); err != nil {
+		return nil, err
 	}
 
-	var id int
-	{
-		var err error
-		var lastInsertedId int64
+	var lastInsertedId int64
 
-		if lastInsertedId, err = result.LastInsertId(); err != nil {
-			return nil, err
-		}
-
-		id = int(lastInsertedId)
+	if lastInsertedId, err = result.LastInsertId(); err != nil {
+		return nil, err
 	}
 
+	var id = int(lastInsertedId)
 	var item *model.Item
-	{
-		var err error
 
-		if item, err = repo.FindItem(int(id)); err != nil {
-			return nil, err
-		}
+	if item, err = repo.FindItem(int(id)); err != nil {
+		return nil, err
 	}
 
 	return item, nil
