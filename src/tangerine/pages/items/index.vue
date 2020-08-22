@@ -1,30 +1,30 @@
 <template>
-  <div class="Con">
-    <div v-if="!fetchFail">
-      <div v-for="item in items" :key="item.id" class="Card">
-        <b-card :title="item.name">
-          <b-card-text>
-            {{ item.summary }}
-          </b-card-text>
-          <a :href="item.uri" class="card-link">商品リンク</a>
-        </b-card>
-      </div>
-    </div>
-    <div v-else>通信に失敗しました</div>
+  <div v-if="!fetchFail">
+    <b-card v-for="item in items" :key="item.id" class="Card">
+      <n-link :to="detailUri(item.id)" class="detail-link">
+        <b-card-title>{{ item.name }}</b-card-title>
+        <b-card-text>{{ item.summary }}</b-card-text>
+      </n-link>
+      <b-link :href="item.uri" class="card-link">商品リンク</b-link>
+    </b-card>
   </div>
+  <div v-else>通信に失敗しました</div>
 </template>
 
 <script lang="ts">
+import { Context } from '@nuxt/types'
 import { Component, Vue } from 'nuxt-property-decorator'
+import { Item } from '@/types/index'
 
 @Component({
-  asyncData(context: any) {
-    return context.$axios
-      .get(context.$axios.defaults.baseURL + 'items')
+  asyncData(context: Context) {
+    const { $axios } = context
+    return $axios
+      .$get($axios.defaults.baseURL + 'items')
       .then((res: any) => {
-        const data = res.data
+        const items: Item[] = res.items
         return {
-          items: data.items,
+          items,
         }
       })
       .catch(() => {
@@ -35,13 +35,22 @@ import { Component, Vue } from 'nuxt-property-decorator'
   },
 })
 export default class List extends Vue {
-  item = {
-    id: 0,
-    name: '',
-    summary: '',
-    uri: '',
-  }
-
   fetchFail = false
+
+  get detailUri() {
+    return (id: any) => {
+      return '/items/detail/' + id
+    }
+  }
 }
 </script>
+
+<style lang="scss" scoped>
+.detail-link {
+  color: black;
+  &:hover {
+    color: #007bff;
+    text-decoration: none;
+  }
+}
+</style>
