@@ -1,9 +1,9 @@
 <template>
   <div class="A">
     <div class="registerscreen">
-      <h1>商品登録画面</h1>
+      <p>商品登録画面</p>
     </div>
-    <div class="title">
+    <div class="titles">
       <p>商品名</p>
       <input v-model="title" placeholder="商品名を入力してね" />
     </div>
@@ -20,7 +20,7 @@
 </template>
 <!--typeScript-->
 
-<script>
+<script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
 import axios from 'axios'
 
@@ -40,13 +40,13 @@ export default class List extends Vue {
           summary: this.overview,
           uri: this.link,
         })
-        .then(function (response) {
-          console.log(response)
+        .then(() => {
           alert('登録完了しました。')
+          this.deleteForm()
         })
-        .catch(function (error) {
-          console.log(error)
+        .catch((error) => {
           alert('登録失敗')
+          console.log(error)
         })
       return {
         data: res.data,
@@ -62,6 +62,12 @@ export default class List extends Vue {
     } else {
       return false
     }
+  }
+
+  deleteForm() {
+    this.title = ''
+    this.overview = ''
+    this.link = ''
   }
 }
 </script>
