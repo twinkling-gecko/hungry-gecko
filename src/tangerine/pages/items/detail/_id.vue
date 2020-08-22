@@ -4,28 +4,23 @@
 </template>
 
 <script lang="ts">
+import { Context } from '@nuxt/types'
 import { Component, Vue } from 'nuxt-property-decorator'
 import ItemDetail from '@/components/ItemDetail.vue'
+import { Item } from '@/types/index'
 
 @Component({
   components: {
     ItemDetail,
   },
-  asyncData(context: any) {
-    const id = context.route.params.id
-    return context.$axios
-      .get(context.$axios.defaults.baseURL + 'items/' + id)
-      .then((res: any) => {
-        const data = res.data
+  asyncData(context: Context) {
+    const { route, $axios } = context
+    const id = route.params.id
+    return $axios
+      .$get($axios.defaults.baseURL + 'items/' + id)
+      .then((item: Item) => {
         return {
-          item: {
-            id: data.id,
-            name: data.name,
-            summary: data.summary,
-            uri: data.uri,
-            created_at: data.created_at,
-            updated_at: data.updated_at,
-          },
+          item,
         }
       })
       .catch(() => {
@@ -36,15 +31,6 @@ import ItemDetail from '@/components/ItemDetail.vue'
   },
 })
 export default class Detail extends Vue {
-  item = {
-    id: 0,
-    name: '',
-    summary: '',
-    uri: '',
-    created_at: Date.now(),
-    updated_at: Date.now(),
-  }
-
   fetchFail = false
 }
 </script>

@@ -22,10 +22,9 @@
 
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
-import axios from 'axios'
 
 @Component
-export default class List extends Vue {
+export default class ItemList extends Vue {
   // DATAの定義
   title = ''
   overview = ''
@@ -34,8 +33,8 @@ export default class List extends Vue {
   // クリック時のアクション
   onClickButton() {
     if (this.checkSendItem()) {
-      const res = axios
-        .post('http://localhost/api/v1/items', {
+      const res = this.$axios
+        .post(this.$axios.defaults.baseURL + 'items', {
           name: this.title,
           summary: this.overview,
           uri: this.link,
@@ -44,9 +43,8 @@ export default class List extends Vue {
           alert('登録完了しました。')
           this.deleteForm()
         })
-        .catch((error) => {
+        .catch(() => {
           alert('登録失敗')
-          console.log(error)
         })
       return {
         data: res.data,
