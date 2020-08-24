@@ -1,17 +1,5 @@
 definitions:
-  router.errorResponse:
-    properties:
-      message:
-        type: string
-    type: object
-  router.indexResponse:
-    properties:
-      items:
-        items:
-          $ref: '#/definitions/router.item'
-        type: array
-    type: object
-  router.item:
+  model.Item:
     properties:
       created_at:
         type: string
@@ -29,6 +17,18 @@ definitions:
     - name
     - summary
     - uri
+    type: object
+  router.errorResponse:
+    properties:
+      message:
+        type: string
+    type: object
+  router.indexResponse:
+    properties:
+      items:
+        items:
+          $ref: '#/definitions/model.Item'
+        type: array
     type: object
   router.receiveItem:
     properties:
@@ -56,6 +56,10 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/router.indexResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/router.errorResponse'
       summary: Get itemslist
     post:
       parameters:
@@ -71,7 +75,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/router.item'
+            $ref: '#/definitions/model.Item'
         "400":
           description: Bad Request
           schema:
@@ -81,7 +85,7 @@ paths:
     get:
       parameters:
       - description: Item ID
-        in: query
+        in: path
         name: id
         required: true
         type: integer
@@ -91,9 +95,13 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/router.item'
+            $ref: '#/definitions/model.Item'
         "400":
           description: Bad Request
+          schema:
+            $ref: '#/definitions/router.errorResponse'
+        "404":
+          description: Not Found
           schema:
             $ref: '#/definitions/router.errorResponse'
       summary: Get item info

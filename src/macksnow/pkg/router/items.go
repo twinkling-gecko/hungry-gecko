@@ -3,21 +3,12 @@ package router
 import (
 	"net/http"
 	"strconv"
-	"time"
 
 	"github.com/labstack/echo/v4"
 	"gopkg.in/go-playground/validator.v9"
-)
 
-// TODO: ダミーAPIの定義用なのでいずれ消す
-type item struct {
-	ID        int       `json:"id"`
-	Name      string    `json:"name" validate:"required"`
-	Summary   string    `json:"summary" validate:"required"`
-	URI       string    `json:"uri" validate:"required"`
-	CreatedAt time.Time `json:"created_at"`
-	UpdatedAt time.Time `json:"updated_at"`
-}
+	"macksnow/pkg/model"
+)
 
 type receiveItem struct {
 	Name    string `json:"name" validate:"required"`
@@ -30,21 +21,11 @@ type CustomValidator struct {
 }
 
 type indexResponse struct {
-	Items []*item `json:"items"`
+	Items []*model.Item `json:"items"`
 }
 
 type errorResponse struct {
 	Message string `json:"message"`
-}
-
-// TODO: ダミーAPI用のダミーデータなのでいずれ消す
-var sampleItem = &item{
-	ID:        0,
-	Name:      "TestItem",
-	Summary:   "TestSummary",
-	URI:       "https://www.amazon.co.jp",
-	CreatedAt: time.Now(),
-	UpdatedAt: time.Now(),
 }
 
 func itemsRouter(e *echo.Echo) {
@@ -60,12 +41,16 @@ func (cv *CustomValidator) Validate(i interface{}) error {
 // @summary Get itemslist
 // @produce json
 // @success 200 {object} indexResponse
+// @failure 500 {object} errorResponse
 // @router /api/v1/items [get]
 func itemsIndexRouter(e *echo.Echo) {
 	e.GET("/v1/items", func(c echo.Context) error {
-		// TODO: 本実装
+		items, err := repo.AllItems()
+		if err != nil {
+			res := &errorResponse{Message: err.Error()}
+			return c.JSON(http.StatusInternalServerError, res)
+		}
 
-		items := []*item{sampleItem}
 		res := &indexResponse{Items: items}
 		return c.JSON(http.StatusOK, res)
 	})
@@ -73,14 +58,13 @@ func itemsIndexRouter(e *echo.Echo) {
 
 // @summary Get item info
 // @produce json
-// @param id query integer true "Item ID"
-// @success 200 {object} item
+// @param id path integer true "Item ID"
+// @success 200 {object} model.Item
 // @failure 400 {object} errorResponse
+// @failure 404 {object} errorResponse
 // @router /api/v1/items/{id} [get]
 func itemsShowRouter(e *echo.Echo) {
 	e.GET("/v1/items/:id", func(c echo.Context) error {
-		// TODO: 本実装
-
 		req := c.Param("id")
 
 		id, err := strconv.Atoi(req)
@@ -89,47 +73,47 @@ func itemsShowRouter(e *echo.Echo) {
 			return c.JSON(http.StatusBadRequest, res)
 		}
 
-		sampleItem := &item{
-			ID:        id,
-			Name:      "TestItem",
-			Summary:   "TestSummary",
-			URI:       "https://www.amazon.co.jp",
-			CreatedAt: time.Now(),
-			UpdatedAt: time.Now(),
+		item, err := repo.FindItem(id)
+		if err != nil {
+			// TODO: 内部エラーとレコード無しのハンドリングをする
+			res := &errorResponse{Message: err.Error()}
+			return c.JSON(http.StatusNotFound, res)
 		}
 
-		return c.JSON(http.StatusOK, sampleItem)
+		return c.JSON(http.StatusOK, item)
 	})
 }
 
 // @summary Register item info
 // @produce json
 // @param items body receiveItem true "Item data"
-// @success 200 {object} item
+// @success 200 {object} model.Item
 // @failure 400 {object} errorResponse
 // @router /api/v1/items [post]
 func itemsCreateRouter(e *echo.Echo) {
 	e.POST("/v1/items", func(c echo.Context) error {
-		// TODO: 本実装
 
 		// echoにvalidatorを登録
 		e.Validator = &CustomValidator{validator: validator.New()}
 
-		sampleItem := new(item)
+		newItem := new(model.Item)
 
-		if err := c.Bind(sampleItem); err != nil {
+		if err := c.Bind(newItem); err != nil {
 			res := &errorResponse{Message: "Invalid parameters."}
 			return c.JSON(http.StatusBadRequest, res)
 		}
 
-		if err := c.Validate(sampleItem); err != nil {
+		if err := c.Validate(newItem); err != nil {
 			res := &errorResponse{Message: "Required parameters is empty. " + err.Error()}
 			return c.JSON(http.StatusBadRequest, res)
 		}
 
-		sampleItem.ID = 99
-		sampleItem.CreatedAt = time.Now()
-		sampleItem.UpdatedAt = time.Now()
-		return c.JSON(http.StatusOK, sampleItem)
+		item, err := repo.CreateItem(newItem.Name, newItem.Summary, newItem.URI)
+		if err != nil {
+			res := &errorResponse{Message: err.Error()}
+			return c.JSON(http.StatusInternalServerError, res)
+		}
+
+		return c.JSON(http.StatusOK, item)
 	})
 }

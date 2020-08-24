@@ -37,6 +37,12 @@ var doc = `{
                         "schema": {
                             "$ref": "#/definitions/router.indexResponse"
                         }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/router.errorResponse"
+                        }
                     }
                 }
             },
@@ -60,7 +66,7 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/router.item"
+                            "$ref": "#/definitions/model.Item"
                         }
                     },
                     "400": {
@@ -83,7 +89,7 @@ var doc = `{
                         "type": "integer",
                         "description": "Item ID",
                         "name": "id",
-                        "in": "query",
+                        "in": "path",
                         "required": true
                     }
                 ],
@@ -91,11 +97,17 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/router.item"
+                            "$ref": "#/definitions/model.Item"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/router.errorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
                         "schema": {
                             "$ref": "#/definitions/router.errorResponse"
                         }
@@ -105,26 +117,7 @@ var doc = `{
         }
     },
     "definitions": {
-        "router.errorResponse": {
-            "type": "object",
-            "properties": {
-                "message": {
-                    "type": "string"
-                }
-            }
-        },
-        "router.indexResponse": {
-            "type": "object",
-            "properties": {
-                "items": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/router.item"
-                    }
-                }
-            }
-        },
-        "router.item": {
+        "model.Item": {
             "type": "object",
             "required": [
                 "name",
@@ -149,6 +142,25 @@ var doc = `{
                 },
                 "uri": {
                     "type": "string"
+                }
+            }
+        },
+        "router.errorResponse": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "router.indexResponse": {
+            "type": "object",
+            "properties": {
+                "items": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.Item"
+                    }
                 }
             }
         },
