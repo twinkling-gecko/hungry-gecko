@@ -1,7 +1,7 @@
 <template>
   <b-navbar variant="light" fixed="top" class="nav">
     <b-navbar-brand to="/">
-      <Gecko class="svg" />
+      <Gecko class="gecko-icon" />
       Hungry Gecko
     </b-navbar-brand>
     <b-navbar-nav class="ml-auto">
@@ -31,7 +31,7 @@ export default class GeneralHeader extends Vue {}
 .nav {
   height: 60px;
 }
-.svg {
+.gecko-icon {
   height: 40px;
   width: auto;
   transform: rotate(-45deg);
