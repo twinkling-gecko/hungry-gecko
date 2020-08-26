@@ -1,24 +1,15 @@
 <template>
-  <div class="A">
-    <div class="registerscreen">
-      <p>商品登録画面</p>
-    </div>
-    <div class="titles">
-      <p>商品名</p>
-      <input v-model="title" placeholder="商品名を入力してね" />
-    </div>
-    <div class="overview">
-      <p>商品概要</p>
-      <input v-model="overview" placeholder="商品概要を入力" />
-    </div>
-    <div class="link">
-      <p>商品リンク</p>
-      <input v-model="link" placeholder="商品のリンクを貼り付けるところ" />
-    </div>
+  <div class>
+    <p>商品登録画面</p>
+    <p>商品名</p>
+    <input v-model="title" placeholder="商品名を入力してね" />
+    <p>商品概要</p>
+    <input v-model="overview" placeholder="商品概要を入力" />
+    <p>商品リンク</p>
+    <input v-model="link" placeholder="商品のリンクを貼り付けるところ" />
     <button @click="onClickButton">登録</button>
   </div>
 </template>
-<!--typeScript-->
 
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
@@ -32,7 +23,7 @@ export default class ItemList extends Vue {
 
   // クリック時のアクション
   onClickButton() {
-    if (this.checkSendItem()) {
+    if (this.validateSendItem()) {
       const res = this.$axios
         .post(this.$axios.defaults.baseURL + 'items', {
           name: this.title,
@@ -41,7 +32,7 @@ export default class ItemList extends Vue {
         })
         .then(() => {
           alert('登録完了しました。')
-          this.deleteForm()
+          this.clearItemForm()
         })
         .catch(() => {
           alert('登録失敗')
@@ -54,7 +45,7 @@ export default class ItemList extends Vue {
     }
   }
 
-  checkSendItem() {
+  validateSendItem() {
     if (this.title && this.overview && this.link) {
       return true
     } else {
@@ -62,11 +53,10 @@ export default class ItemList extends Vue {
     }
   }
 
-  deleteForm() {
+  clearItemForm() {
     this.title = ''
     this.overview = ''
     this.link = ''
   }
 }
 </script>
-<!--CSS styleだけだとERRORが起きる-->
