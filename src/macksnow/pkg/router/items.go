@@ -117,3 +117,11 @@ func itemsCreateRouter(e *echo.Echo) {
 		return c.JSON(http.StatusOK, item)
 	})
 }
+
+// @summary Update item
+// @produce json
+// @param item body receiveItem true "Item data"
+// @success 200 {object} model.Item
+// @failure 400 {object} errorResponse
+// @router /api/v1/items/{id} [post]
+func itemsUpdateRouter(e *echo.Echo) {}

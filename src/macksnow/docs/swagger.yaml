@@ -45,7 +45,6 @@ definitions:
     type: object
 info:
   contact: {}
-  license: {}
 paths:
   /api/v1/items:
     get:
@@ -105,4 +104,24 @@ paths:
           schema:
             $ref: '#/definitions/router.errorResponse'
       summary: Get item info
+    post:
+      parameters:
+      - description: Item data
+        in: body
+        name: item
+        required: true
+        schema:
+          $ref: '#/definitions/router.receiveItem'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Item'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/router.errorResponse'
+      summary: Update item
 swagger: "2.0"

@@ -19,7 +19,6 @@ var doc = `{
         "description": "{{.Description}}",
         "title": "{{.Title}}",
         "contact": {},
-        "license": {},
         "version": "{{.Version}}"
     },
     "host": "{{.Host}}",
@@ -108,6 +107,37 @@ var doc = `{
                     },
                     "404": {
                         "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/router.errorResponse"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Update item",
+                "parameters": [
+                    {
+                        "description": "Item data",
+                        "name": "item",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/router.receiveItem"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.Item"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
                         "schema": {
                             "$ref": "#/definitions/router.errorResponse"
                         }
