@@ -1,5 +1,5 @@
 <template>
-  <div v-if="isFetchSuccessed">
+  <div v-if="fetchSuccessed">
     <b-card v-for="item in items" :key="item.id" class="Card">
       <n-link :to="itemDetailUri(item.id)" class="detail-link">
         <b-card-title>{{ item.name }}</b-card-title>
@@ -29,13 +29,13 @@ import { Item } from '@/types/index'
       })
       .catch(() => {
         return {
-          isFetchSuccessed: false,
+          fetchSuccessed: false,
         }
       })
   },
 })
 export default class List extends Vue {
-  isFetchSuccessed = true
+  fetchSuccessed = true
 
   get itemDetailUri() {
     return (id: Item.id) => {
