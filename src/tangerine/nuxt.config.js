@@ -57,12 +57,15 @@ export default {
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
     '@nuxtjs/pwa',
+    'nuxt-svg-loader',
   ],
   /*
    ** Axios module configuration
    ** See https://axios.nuxtjs.org/options
    */
-  axios: {},
+  axios: {
+    baseURL: 'http://localhost/api/v1/',
+  },
   /*
    ** Build configuration
    ** See https://nuxtjs.org/api/configuration-build/
