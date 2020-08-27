@@ -71,6 +71,41 @@ or
 tangerine は `http://localhost:3000`、
 macksnow は `http://localhost:4000` で繋がる。
 
+# DBのマイグレーション
+
+ネイティブにインストールされたgoose(presslyによるfork版)を利用する。  
+コンテナは利用せず、外からマイグレーションを行う。  
+ネイティブにgoの動作する環境と、$GOBINにpathが通っている必要がある。
+
+## gooseのインストール
+
+`$ go get -u github.com/pressly/goose/cmd/goose`
+
+## DBのマイグレーションを適用する
+
+`$ cd src/macksnow/migrations/`  
+`$ goose mysql "giant:leopard@/macksnow?parseTime=true" up`
+
+## DBのロールバック
+
+`$ cd src/macksnow/migrations/`  
+`$ goose mysql "giant:leopard@/macksnow?parseTime=true" down`
+
+## パラメータの省略
+
+マイグレーション適用とロールバックの際に毎回ドライバと接続項目を打つのは面倒なので  
+環境変数に入れておくとよい。
+
+`$ export GOOSE_DRIVER=mysql`  
+`$ export GOOSE_DBSTRING="giant:leopard@/macksnow?parseTime=true"`
+
+これを入れておくと、マイグレーション適用とロールバックをそれぞれ
+
+`$ goose up`  
+`$ goose down`
+
+で実行可能。
+
 # 運用ルール
 
 ## git

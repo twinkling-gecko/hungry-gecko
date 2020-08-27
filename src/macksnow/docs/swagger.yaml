@@ -1,0 +1,108 @@
+definitions:
+  model.Item:
+    properties:
+      created_at:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      summary:
+        type: string
+      updated_at:
+        type: string
+      uri:
+        type: string
+    required:
+    - name
+    - summary
+    - uri
+    type: object
+  router.errorResponse:
+    properties:
+      message:
+        type: string
+    type: object
+  router.indexResponse:
+    properties:
+      items:
+        items:
+          $ref: '#/definitions/model.Item'
+        type: array
+    type: object
+  router.receiveItem:
+    properties:
+      name:
+        type: string
+      summary:
+        type: string
+      uri:
+        type: string
+    required:
+    - name
+    - summary
+    - uri
+    type: object
+info:
+  contact: {}
+  license: {}
+paths:
+  /api/v1/items:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/router.indexResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/router.errorResponse'
+      summary: Get itemslist
+    post:
+      parameters:
+      - description: Item data
+        in: body
+        name: items
+        required: true
+        schema:
+          $ref: '#/definitions/router.receiveItem'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Item'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/router.errorResponse'
+      summary: Register item info
+  /api/v1/items/{id}:
+    get:
+      parameters:
+      - description: Item ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Item'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/router.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/router.errorResponse'
+      summary: Get item info
+swagger: "2.0"

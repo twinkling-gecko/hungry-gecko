@@ -1,3 +1,4 @@
+.db/
 .go/
 node_modules/
 yarn.lock
