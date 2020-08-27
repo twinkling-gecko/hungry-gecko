@@ -24,7 +24,7 @@ export default class ItemList extends Vue {
   // クリック時のアクション
   onClickButton() {
     if (this.validateSendItem()) {
-      const res = this.$axios
+      this.$axios
         .post(this.$axios.defaults.baseURL + 'items', {
           name: this.title,
           summary: this.overview,
@@ -37,9 +37,6 @@ export default class ItemList extends Vue {
         .catch(() => {
           alert('登録失敗')
         })
-      return {
-        data: res.data,
-      }
     } else {
       alert('登録情報を入力してください')
     }
