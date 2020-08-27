@@ -1,5 +1,5 @@
 <template>
-  <ItemDetail v-if="fetchSuccessed" :item="item" />
+  <ItemDetail v-if="!fetchError" :item="item" />
   <div v-else>通信に失敗しました</div>
 </template>
 
@@ -23,14 +23,14 @@ import { Item } from '@/types/index'
           item,
         }
       })
-      .catch(() => {
+      .catch((err: Error) => {
         return {
-          fetchSuccessed: false,
+          fetchError: err,
         }
       })
   },
 })
 export default class Detail extends Vue {
-  fetchSuccessed = true
+  fetchError = ''
 }
 </script>

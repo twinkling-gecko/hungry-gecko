@@ -1,5 +1,5 @@
 <template>
-  <div class>
+  <div>
     <p>商品登録画面</p>
     <p>商品名</p>
     <input v-model="title" placeholder="商品名を入力してね" />
