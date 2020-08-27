@@ -3,36 +3,7 @@
     <h1>商品登録画面</h1>
 
     <b-container>
-      <b-form @submit="onSubmit" @reset="onReset">
-        <b-form-group label="商品名" label-for="item-name">
-          <b-form-input
-            v-model="form.title"
-            id="item-name"
-            type="text"
-            placeholder="商品名を入力してね"
-            required
-          />
-        </b-form-group>
-        <b-form-group label="商品概要" label-for="item-summary">
-          <b-form-input
-            v-model="form.summary"
-            id="item-summary"
-            type="text"
-            placeholder="商品概要を入力してね"
-            required
-          />
-        </b-form-group>
-        <b-form-group label="商品リンク" label-for="item-link">
-          <b-form-input
-            v-model="form.link"
-            id="item-link"
-            type="text"
-            placeholder="商品のリンクを入力してね"
-            required
-          />
-        </b-form-group>
-        <b-button type="submit">登録</b-button>
-      </b-form>
+      <ItemForm :form="form" :on-submit="onSubmit" :on-reset="onReset" />
     </b-container>
   </b-container>
 </template>
@@ -44,32 +15,36 @@ import { Component, Vue } from 'nuxt-property-decorator'
 export default class ItemList extends Vue {
   // DATAの定義
   form = {
-    title: '',
+    name: '',
     summary: '',
-    link: '',
+    uri: '',
   }
 
   // submit時のアクション
-  onSubmit() {
+  onSubmit(event: Event) {
+    event.preventDefault()
+
     this.$axios
       .post(this.$axios.defaults.baseURL + 'items', {
-        name: this.form.title,
+        name: this.form.name,
         summary: this.form.summary,
-        uri: this.form.link,
+        uri: this.form.uri,
       })
       .then(() => {
         alert('登録完了しました。')
-        this.onReset()
+        this.onReset(event)
       })
       .catch(() => {
         alert('登録失敗')
       })
   }
 
-  onReset() {
-    this.form.title = ''
+  onReset(event: Event) {
+    event.preventDefault()
+
+    this.form.name = ''
     this.form.summary = ''
-    this.form.link = ''
+    this.form.uri = ''
   }
 }
 </script>
