@@ -113,15 +113,22 @@ var doc = `{
                     }
                 }
             },
-            "post": {
+            "patch": {
                 "produces": [
                     "application/json"
                 ],
                 "summary": "Update item",
                 "parameters": [
                     {
+                        "type": "integer",
+                        "description": "Item ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
                         "description": "Item data",
-                        "name": "item",
+                        "name": "items",
                         "in": "body",
                         "required": true,
                         "schema": {

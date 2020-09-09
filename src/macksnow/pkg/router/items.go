@@ -32,6 +32,7 @@ func itemsRouter(e *echo.Echo) {
 	itemsIndexRouter(e)
 	itemsShowRouter(e)
 	itemsCreateRouter(e)
+	itemsUpdateRouter(e)
 }
 
 func (cv *CustomValidator) Validate(i interface{}) error {
@@ -120,8 +121,29 @@ func itemsCreateRouter(e *echo.Echo) {
 
 // @summary Update item
 // @produce json
-// @param item body receiveItem true "Item data"
+// @param id path integer true "Item ID"
+// @param items body receiveItem true "Item data"
 // @success 200 {object} model.Item
 // @failure 400 {object} errorResponse
-// @router /api/v1/items/{id} [post]
-func itemsUpdateRouter(e *echo.Echo) {}
+// @router /api/v1/items/{id} [patch]
+func itemsUpdateRouter(e *echo.Echo) {
+	e.PATCH("/v1/items/:id", func(c echo.Context) error {
+
+		// TODO: Validatorのインスタンスを上位階層登録(main.go)
+		e.Validator = &CustomValidator{validator: validator.New()}
+
+		newItem := new(model.Item)
+
+		if err := c.Bind(newItem); err != nil {
+			res := &errorResponse{Message: "Invalid parameters."}
+			return c.JSON(http.StatusBadRequest, res)
+		}
+
+		if err := c.Validate(newItem); err != nil {
+			res := &errorResponse{Message: "Required parameters is empty. " + err.Error()}
+			return c.JSON(http.StatusBadRequest, res)
+		}
+
+		return c.JSON(http.StatusOK, newItem)
+	})
+}

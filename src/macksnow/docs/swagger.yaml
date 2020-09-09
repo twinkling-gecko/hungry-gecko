@@ -104,11 +104,16 @@ paths:
           schema:
             $ref: '#/definitions/router.errorResponse'
       summary: Get item info
-    post:
+    patch:
       parameters:
+      - description: Item ID
+        in: path
+        name: id
+        required: true
+        type: integer
       - description: Item data
         in: body
-        name: item
+        name: items
         required: true
         schema:
           $ref: '#/definitions/router.receiveItem'
