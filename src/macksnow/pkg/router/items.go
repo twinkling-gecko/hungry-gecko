@@ -132,18 +132,18 @@ func itemsUpdateRouter(e *echo.Echo) {
 		// TODO: Validatorのインスタンスを上位階層登録(main.go)
 		e.Validator = &CustomValidator{validator: validator.New()}
 
-		newItem := new(model.Item)
+		item := new(model.Item)
 
-		if err := c.Bind(newItem); err != nil {
+		if err := c.Bind(item); err != nil {
 			res := &errorResponse{Message: "Invalid parameters."}
 			return c.JSON(http.StatusBadRequest, res)
 		}
 
-		if err := c.Validate(newItem); err != nil {
+		if err := c.Validate(item); err != nil {
 			res := &errorResponse{Message: "Required parameters is empty. " + err.Error()}
 			return c.JSON(http.StatusBadRequest, res)
 		}
 
-		return c.JSON(http.StatusOK, newItem)
+		return c.JSON(http.StatusOK, item)
 	})
 }
