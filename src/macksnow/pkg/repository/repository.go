@@ -1,11 +1,15 @@
 package repository
 
 import (
+	"os"
+
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jmoiron/sqlx"
 
 	"macksnow/pkg/model"
 )
+
+var dsn = os.Getenv("DSN")
 
 // DBへの接続を管理する実態
 type repository struct {
@@ -22,7 +26,7 @@ type Repository interface {
 
 // コンストラクタに当たるもの（repositoryの生成を行う）
 func New() (Repository, error) {
-	db, err := sqlx.Connect("mysql", "giant:leopard@tcp(giant)/macksnow?parseTime=true")
+	db, err := sqlx.Connect("mysql", dsn)
 	if err != nil {
 		return nil, err
 	}

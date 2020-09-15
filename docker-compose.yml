@@ -9,6 +9,9 @@ services:
     volumes:
       - ./.go/pkg:/go/pkg
       - ./src/macksnow:/go/src/macksnow:cached
+    environment:
+      # username:password@protocol(address)/dbname?param=value
+      - DSN=giant:leopard@tcp(giant)/macksnow?parseTime=true
     depends_on:
       - giant
     ports:
