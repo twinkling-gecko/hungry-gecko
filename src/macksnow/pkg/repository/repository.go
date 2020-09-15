@@ -7,7 +7,7 @@ import (
 	"macksnow/pkg/model"
 )
 
-// DBへの接続を管理する実態
+// DBへの接続を管理する実体
 type repository struct {
 	db *sqlx.DB
 }
