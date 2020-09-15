@@ -161,16 +161,16 @@ func TestItemsUpdateRouter(t *testing.T) {
 	json = `{"name":"hoge","summary":"fuga","uri":"piyo"}`
 	params = bytes.NewBuffer([]byte(json))
 
-	invalidURIReq := httptest.NewRequest("PATCH", "/v1/items/hoge", params)
-	invalidURIRec := httptest.NewRecorder()
-	e.ServeHTTP(invalidURIRec, invalidURIReq)
+	invalidIDReq := httptest.NewRequest("PATCH", "/v1/items/hoge", params)
+	invalidIDRec := httptest.NewRecorder()
+	e.ServeHTTP(invalidIDRec, invalidIDReq)
 
-	body, err = ioutil.ReadAll(invalidURIRec.Result().Body)
+	body, err = ioutil.ReadAll(invalidIDRec.Result().Body)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	assert.Equal(t, http.StatusBadRequest, invalidURIRec.Code)
+	assert.Equal(t, http.StatusBadRequest, invalidIDRec.Code)
 	assert.Equal(t, `{"message":"hoge is not integer."}`+"\n", string(body))
 
 	// 存在しない:idでリクエストした場合
