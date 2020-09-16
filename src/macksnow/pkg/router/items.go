@@ -128,6 +128,13 @@ func itemsCreateRouter(e *echo.Echo) {
 // @router /api/v1/items/{id} [patch]
 func itemsUpdateRouter(e *echo.Echo) {
 	e.PATCH("/v1/items/:id", func(c echo.Context) error {
+		req := c.Param("id")
+
+		id, err := strconv.Atoi(req)
+		if err != nil {
+			res := &errorResponse{Message: req + " is not integer."}
+			return c.JSON(http.StatusBadRequest, res)
+		}
 
 		// TODO: Validatorのインスタンスを上位階層登録(main.go)
 		e.Validator = &CustomValidator{validator: validator.New()}
@@ -144,6 +151,12 @@ func itemsUpdateRouter(e *echo.Echo) {
 			return c.JSON(http.StatusBadRequest, res)
 		}
 
-		return c.JSON(http.StatusOK, item)
+		updatedItem, err := repo.UpdateItem(item.Name, item.Summary, item.URI, id)
+		if err != nil {
+			res := &errorResponse{Message: err.Error()}
+			return c.JSON(http.StatusInternalServerError, res)
+		}
+
+		return c.JSON(http.StatusOK, updatedItem)
 	})
 }
