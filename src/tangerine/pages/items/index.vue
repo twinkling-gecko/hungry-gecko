@@ -39,7 +39,7 @@ export default class List extends Vue {
 
   get itemDetailUri() {
     return (id: Item['id']) => {
-      return '/items/detail/' + id
+      return '/items/' + id + '/show'
     }
   }
 }
