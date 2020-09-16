@@ -14,6 +14,7 @@ import { Component, Vue } from 'nuxt-property-decorator'
 @Component
 export default class ItemUpdate extends Vue {
   id = ''
+
   form = {
     name: '',
     summary: '',
@@ -22,6 +23,17 @@ export default class ItemUpdate extends Vue {
 
   created() {
     this.id = this.$route.params.id
+    this.fetchItemDetail()
+  }
+
+  fetchItemDetail() {
+    this.$axios
+      .get(this.$axios.defaults.baseURL + 'items/' + this.id)
+      .then((res) => {
+        this.form.name = res.data.name
+        this.form.summary = res.data.summary
+        this.form.uri = res.data.uri
+      })
   }
 
   onSubmit(event: Event) {
@@ -36,6 +48,7 @@ export default class ItemUpdate extends Vue {
       .then(() => {
         alert('編集完了しました。')
         this.onReset(event)
+        this.$router.push('show')
       })
       .catch(() => {
         alert('編集失敗')
@@ -44,10 +57,7 @@ export default class ItemUpdate extends Vue {
 
   onReset(event: Event) {
     event.preventDefault()
-
-    this.form.name = ''
-    this.form.summary = ''
-    this.form.uri = ''
+    this.fetchItemDetail()
   }
 }
 </script>
