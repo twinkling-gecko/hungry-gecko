@@ -3,6 +3,7 @@ package repository
 import (
 	"database/sql"
 	"macksnow/pkg/model"
+	"time"
 )
 
 func (repo *repository) AllItems() ([]*model.Item, error) {
@@ -54,6 +55,25 @@ func (repo *repository) CreateItem(name string, summary string, uri string) (*mo
 	}
 
 	var id = int(lastInsertedId)
+	var item *model.Item
+
+	if item, err = repo.FindItem(int(id)); err != nil {
+		return nil, err
+	}
+
+	return item, nil
+}
+
+func (repo *repository) UpdateItem(name string, summary string, uri string, id int) (*model.Item, error) {
+	var err error
+
+	if _, err = repo.db.Exec(
+		"UPDATE items SET name=?, summary=?, uri=?, updated_at=? WHERE id=?",
+		name, summary, uri, time.Now(), id,
+	); err != nil {
+		return nil, err
+	}
+
 	var item *model.Item
 
 	if item, err = repo.FindItem(int(id)); err != nil {
