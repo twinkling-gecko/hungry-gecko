@@ -1,6 +1,13 @@
 <template>
-  <ItemDetail v-if="!fetchError" :item="item" />
-  <div v-else>通信に失敗しました</div>
+  <div>
+    <b-container v-if="!fetchError">
+      <ItemDetail :item="item" />
+      <b-row>
+        <b-link to="edit">変更</b-link>
+      </b-row>
+    </b-container>
+    <div v-else>通信に失敗しました</div>
+  </div>
 </template>
 
 <script lang="ts">

@@ -1,6 +1,6 @@
 <template>
   <b-container>
-    <h1>商品登録画面</h1>
+    <h1>商品編集画面</h1>
 
     <b-container>
       <ItemForm :form="form" :on-submit="onSubmit" :on-reset="onReset" />
@@ -12,39 +12,52 @@
 import { Component, Vue } from 'nuxt-property-decorator'
 
 @Component
-export default class ItemList extends Vue {
-  // DATAの定義
+export default class ItemUpdate extends Vue {
+  id = ''
+
   form = {
     name: '',
     summary: '',
     uri: '',
   }
 
-  // submit時のアクション
+  created() {
+    this.id = this.$route.params.id
+    this.fetchItemDetail()
+  }
+
+  fetchItemDetail() {
+    this.$axios
+      .get(this.$axios.defaults.baseURL + 'items/' + this.id)
+      .then((res) => {
+        this.form.name = res.data.name
+        this.form.summary = res.data.summary
+        this.form.uri = res.data.uri
+      })
+  }
+
   onSubmit(event: Event) {
     event.preventDefault()
 
     this.$axios
-      .post(this.$axios.defaults.baseURL + 'items', {
+      .patch(this.$axios.defaults.baseURL + 'items/' + this.id, {
         name: this.form.name,
         summary: this.form.summary,
         uri: this.form.uri,
       })
       .then(() => {
-        alert('登録完了しました。')
+        alert('編集完了しました。')
         this.onReset(event)
+        this.$router.push('show')
       })
       .catch(() => {
-        alert('登録失敗')
+        alert('編集失敗')
       })
   }
 
   onReset(event: Event) {
     event.preventDefault()
-
-    this.form.name = ''
-    this.form.summary = ''
-    this.form.uri = ''
+    this.fetchItemDetail()
   }
 }
 </script>
