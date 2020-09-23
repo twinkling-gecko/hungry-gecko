@@ -7,3 +7,4 @@ release:
   command:
     - cd /usr/src/macksnow/migrations && /root/go/bin/goose mysql $DSN up
   image: web
+
