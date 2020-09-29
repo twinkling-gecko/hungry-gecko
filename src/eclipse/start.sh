@@ -1,6 +1,6 @@
 #!/bin/sh
 
-cd /usr/src/tangerine && NUXT_PORT=3000 npm run dev&
+cd /usr/src/tangerine && NUXT_PORT=3000 npm run serve&
 cd /usr/src/macksnow && ./macksnow&
 
 # build
