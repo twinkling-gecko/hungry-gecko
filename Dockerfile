@@ -14,6 +14,9 @@ RUN apk add \
     git \
     nginx
 
+# https://github.com/gliderlabs/docker-alpine/issues/185
+RUN mkdir -p /run/nginx
+
 COPY src/macksnow /usr/src/macksnow
 WORKDIR /usr/src/macksnow
 RUN go build
