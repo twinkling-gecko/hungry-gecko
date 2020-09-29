@@ -82,3 +82,16 @@ func (repo *repository) UpdateItem(name string, summary string, uri string, id i
 
 	return item, nil
 }
+
+func (repo *repository) DeleteItem(id int) error {
+	var err error
+
+	if _, err = repo.db.Exec(
+		"DELETE FROM items WHERE id=?",
+		id,
+	); err != nil {
+		return err
+	}
+
+	return nil
+}

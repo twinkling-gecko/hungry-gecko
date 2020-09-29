@@ -22,6 +22,7 @@ type Repository interface {
 	FindItem(id int) (*model.Item, error)
 	CreateItem(name string, summary string, uri string) (*model.Item, error)
 	UpdateItem(name string, summary string, uri string, id int) (*model.Item, error)
+	DeleteItem(id int) error
 	Close() error
 }
 

@@ -33,6 +33,7 @@ func itemsRouter(e *echo.Echo) {
 	itemsShowRouter(e)
 	itemsCreateRouter(e)
 	itemsUpdateRouter(e)
+	itemsDeleteRouter(e)
 }
 
 func (cv *CustomValidator) Validate(i interface{}) error {
@@ -158,5 +159,33 @@ func itemsUpdateRouter(e *echo.Echo) {
 		}
 
 		return c.JSON(http.StatusOK, updatedItem)
+	})
+}
+
+// @summary Delete item
+// @produce json
+// @param id path integer true "Item ID"
+// @success 200
+// @failure 400 {object} errorResponse
+// @router /api/v1/items/{id} [delete]
+func itemsDeleteRouter(e *echo.Echo) {
+	e.DELETE("/v1/items/:id", func(c echo.Context) error {
+		req := c.Param("id")
+
+		//文字列を数字に変える関数strconv
+		id, err := strconv.Atoi(req)
+		if err != nil {
+			res := &errorResponse{Message: req + " is not integer."}
+			return c.JSON(http.StatusBadRequest, res)
+		}
+
+		//DBにidをもとにdeleteをリクエストするためメソッドをよんでる
+		err = repo.DeleteItem(id)
+		if err != nil {
+			res := &errorResponse{Message: err.Error()}
+			return c.JSON(http.StatusInternalServerError, res)
+		}
+
+		return c.JSON(http.StatusOK, "正常に削除しました")
 	})
 }

@@ -45,6 +45,7 @@ definitions:
     type: object
 info:
   contact: {}
+  license: {}
 paths:
   /api/v1/items:
     get:
@@ -81,6 +82,22 @@ paths:
             $ref: '#/definitions/router.errorResponse'
       summary: Register item info
   /api/v1/items/{id}:
+    delete:
+      parameters:
+      - description: Item ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200": {}
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/router.errorResponse'
+      summary: Delete item
     get:
       parameters:
       - description: Item ID
