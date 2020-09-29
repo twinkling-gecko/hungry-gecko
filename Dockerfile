@@ -20,7 +20,7 @@ RUN go build
 
 COPY src/tangerine /usr/src/tangerine
 WORKDIR /usr/src/tangerine
-RUN npm install && npm run build && npm run export
+RUN npm install
 
 RUN go get -u github.com/pressly/goose/cmd/goose
 
