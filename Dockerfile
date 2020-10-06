@@ -1,17 +1,21 @@
-FROM ubuntu:20.04
+FROM alpine:latest
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV PATH=$PATH:/usr/lib/go-1.14/bin
 ARG AXIOS_BASE_URL=http://localhost/api/v1/
 ENV AXIOS_BASE_URL=$AXIOS_BASE_URL
 
-RUN apt-get update && apt-get install -y \
-    golang-1.14-go \
-    nodejs npm \
+RUN apk add \
+    go \
+    nodejs \
+    npm \
     ruby \
     curl \
     git \
     nginx
+
+# https://github.com/gliderlabs/docker-alpine/issues/185
+RUN mkdir -p /run/nginx
 
 COPY src/macksnow /usr/src/macksnow
 WORKDIR /usr/src/macksnow
