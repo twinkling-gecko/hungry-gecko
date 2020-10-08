@@ -18,6 +18,34 @@ definitions:
     - summary
     - uri
     type: object
+  model.User:
+    properties:
+      confirmationToken:
+        type: string
+      confirmedAt:
+        type: string
+      createdAt:
+        type: string
+      deletedAt:
+        type: string
+      email:
+        type: string
+      id:
+        type: integer
+      nickname:
+        type: string
+      passwordHash:
+        type: string
+      screenName:
+        type: string
+      updatedAt:
+        type: string
+    required:
+    - email
+    - nickname
+    - passwordHash
+    - screenName
+    type: object
   router.errorResponse:
     properties:
       message:
@@ -42,6 +70,17 @@ definitions:
     - name
     - summary
     - uri
+    type: object
+  router.receiveUser:
+    properties:
+      email:
+        type: string
+      nickname:
+        type: string
+      password:
+        type: string
+      screen_name:
+        type: string
     type: object
 info:
   contact: {}
@@ -129,4 +168,25 @@ paths:
           schema:
             $ref: '#/definitions/router.errorResponse'
       summary: Update item
+  /api/v1/users:
+    post:
+      parameters:
+      - description: User data
+        in: body
+        name: users
+        required: true
+        schema:
+          $ref: '#/definitions/router.receiveUser'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.User'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/router.errorResponse'
+      summary: Register user info
 swagger: "2.0"

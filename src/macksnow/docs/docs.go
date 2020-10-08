@@ -151,6 +151,39 @@ var doc = `{
                     }
                 }
             }
+        },
+        "/api/v1/users": {
+            "post": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Register user info",
+                "parameters": [
+                    {
+                        "description": "User data",
+                        "name": "users",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/router.receiveUser"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.User"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/router.errorResponse"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -178,6 +211,47 @@ var doc = `{
                     "type": "string"
                 },
                 "uri": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.User": {
+            "type": "object",
+            "required": [
+                "email",
+                "nickname",
+                "passwordHash",
+                "screenName"
+            ],
+            "properties": {
+                "confirmationToken": {
+                    "type": "string"
+                },
+                "confirmedAt": {
+                    "type": "string"
+                },
+                "createdAt": {
+                    "type": "string"
+                },
+                "deletedAt": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "nickname": {
+                    "type": "string"
+                },
+                "passwordHash": {
+                    "type": "string"
+                },
+                "screenName": {
+                    "type": "string"
+                },
+                "updatedAt": {
                     "type": "string"
                 }
             }
@@ -216,6 +290,23 @@ var doc = `{
                     "type": "string"
                 },
                 "uri": {
+                    "type": "string"
+                }
+            }
+        },
+        "router.receiveUser": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "nickname": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "screen_name": {
                     "type": "string"
                 }
             }
