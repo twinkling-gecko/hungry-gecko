@@ -3,7 +3,7 @@
     <div class="text-center">
       <!-- TODO: ブランドロゴの作成 -->
       <Logo />
-      <h1>Hungry Gecko</h1>
+      <h1 class="display-1">Hungry Gecko</h1>
     </div>
   </b-container>
 </template>
