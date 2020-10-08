@@ -22,6 +22,9 @@ type Repository interface {
 	FindItem(id int) (*model.Item, error)
 	CreateItem(name string, summary string, uri string) (*model.Item, error)
 	UpdateItem(name string, summary string, uri string, id int) (*model.Item, error)
+	FindUserByEmail(email string) (*model.User, error)
+	FindUserById(id int) (*model.User, error)
+	CreateUser(nickName string, screenName string, email string, passwordHash string, confirmationToken string) (*model.User, error)
 	Close() error
 }
 
