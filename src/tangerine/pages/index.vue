@@ -1,34 +1,30 @@
 <template>
-  <div class="container">
-    <div>
+  <b-container>
+    <div class="text-center">
+      <!-- TODO: ブランドロゴの作成 -->
       <Logo />
-      <h1 class="title">
-        tangerine
-      </h1>
-      <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--green"
-        >
-          Documentation
-        </a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--grey"
-        >
-          GitHub
-        </a>
-      </div>
+      <h1 class="display-1">Hungry Gecko</h1>
     </div>
-  </div>
+    <div class="text-center">
+      <b-button class="mr-2" variant="outline-primary" size="lg" to="/items">
+        ItemList
+      </b-button>
+      <b-button
+        class="ml-2"
+        variant="outline-secondary"
+        size="lg"
+        to="/items/new"
+      >
+        NewItem
+      </b-button>
+    </div>
+  </b-container>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
 
-export default Vue.extend({})
+export default Vue.extend({
+  layout: 'top',
+})
 </script>

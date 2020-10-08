@@ -4,14 +4,6 @@
       <Gecko class="gecko-icon" />
       Hungry Gecko
     </b-navbar-brand>
-    <b-navbar-nav class="ml-auto">
-      <nuxt-link to="/items/new">
-        <b-button size="sm" class="my-2 my-sm-0"> NewItems </b-button>
-      </nuxt-link>
-      <nuxt-link to="/items/">
-        <b-button size="sm" class="my-2 my-sm-0"> アイテム一覧 </b-button>
-      </nuxt-link>
-    </b-navbar-nav>
   </b-navbar>
 </template>
 

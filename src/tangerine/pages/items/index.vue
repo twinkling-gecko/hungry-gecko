@@ -1,12 +1,20 @@
 <template>
   <div v-if="!fetchError">
-    <b-card v-for="item in items" :key="item.id" class="Card">
-      <n-link :to="itemDetailUri(item.id)" class="detail-link">
-        <b-card-title>{{ item.name }}</b-card-title>
+    <b-container>
+      <b-card v-for="item in items" :key="item.id" class="my-2">
+        <n-link :to="itemDetailUri(item.id)" class="detail-link">
+          <b-card-title>{{ item.name }}</b-card-title>
+        </n-link>
         <b-card-text>{{ item.summary }}</b-card-text>
-      </n-link>
-      <b-link :href="item.uri" class="card-link">商品リンク</b-link>
-    </b-card>
+        <b-button
+          variant="outline-secondary"
+          size="sm"
+          :href="item.uri"
+          class="card-link"
+          >商品リンク</b-button
+        >
+      </b-card>
+    </b-container>
   </div>
   <div v-else>通信に失敗しました</div>
 </template>

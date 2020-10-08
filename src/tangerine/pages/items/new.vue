@@ -30,9 +30,9 @@ export default class ItemList extends Vue {
         summary: this.form.summary,
         uri: this.form.uri,
       })
-      .then(() => {
+      .then((res) => {
         alert('登録完了しました。')
-        this.onReset(event)
+        this.$router.push(`/items/${res.data.id}/show`)
       })
       .catch(() => {
         alert('登録失敗')
