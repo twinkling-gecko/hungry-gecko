@@ -1,10 +1,10 @@
 <template>
-  <b-container>
+  <div>
     <h2>{{ item.name }}</h2>
     <p>{{ item.summary }}</p>
     <b-link :href="item.uri">{{ item.uri }}</b-link>
     <p>更新日：{{ item.updated_at }}</p>
-  </b-container>
+  </div>
 </template>
 
 <script lang="ts">
