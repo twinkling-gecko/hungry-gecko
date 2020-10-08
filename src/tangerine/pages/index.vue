@@ -1,7 +1,9 @@
 <template>
   <b-container>
-    <div>
+    <div class="text-center">
+      <!-- TODO: ブランドロゴの作成 -->
       <Logo />
+      <h1>Hungry Gecko</h1>
     </div>
   </b-container>
 </template>
