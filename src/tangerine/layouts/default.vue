@@ -21,6 +21,6 @@ export default class Default extends Vue {}
 
 <style lang="scss" scoped>
 .content {
-  margin-top: 60px;
+  margin-top: 80px;
 }
 </style>
