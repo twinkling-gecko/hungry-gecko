@@ -5,7 +5,6 @@ import (
 	"strconv"
 
 	"github.com/labstack/echo/v4"
-	"gopkg.in/go-playground/validator.v9"
 
 	"macksnow/pkg/model"
 )
@@ -16,16 +15,8 @@ type receiveItem struct {
 	URI     string `json:"uri" validate:"required"`
 }
 
-type CustomValidator struct {
-	validator *validator.Validate
-}
-
 type indexResponse struct {
 	Items []*model.Item `json:"items"`
-}
-
-type errorResponse struct {
-	Message string `json:"message"`
 }
 
 func itemsRouter(e *echo.Echo) {
@@ -33,10 +24,6 @@ func itemsRouter(e *echo.Echo) {
 	itemsShowRouter(e)
 	itemsCreateRouter(e)
 	itemsUpdateRouter(e)
-}
-
-func (cv *CustomValidator) Validate(i interface{}) error {
-	return cv.validator.Struct(i)
 }
 
 // @summary Get itemslist
@@ -94,9 +81,6 @@ func itemsShowRouter(e *echo.Echo) {
 func itemsCreateRouter(e *echo.Echo) {
 	e.POST("/v1/items", func(c echo.Context) error {
 
-		// echoにvalidatorを登録
-		e.Validator = &CustomValidator{validator: validator.New()}
-
 		newItem := new(model.Item)
 
 		if err := c.Bind(newItem); err != nil {
@@ -135,9 +119,6 @@ func itemsUpdateRouter(e *echo.Echo) {
 			res := &errorResponse{Message: req + " is not integer."}
 			return c.JSON(http.StatusBadRequest, res)
 		}
-
-		// TODO: Validatorのインスタンスを上位階層登録(main.go)
-		e.Validator = &CustomValidator{validator: validator.New()}
 
 		item := new(model.Item)
 
