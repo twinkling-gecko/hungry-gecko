@@ -3,7 +3,7 @@
     <b-container v-if="!fetchError">
       <ItemDetail :item="item" />
       <b-row>
-        <b-link to="edit">変更</b-link>
+        <b-button to="edit">変更</b-button>
       </b-row>
     </b-container>
     <div v-else>通信に失敗しました</div>
